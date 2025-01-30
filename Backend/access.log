@@ -1,0 +1,2 @@
+::1 - - [30/Jan/2025:07:02:30 +0000] "OPTIONS /user/signup HTTP/1.1" 204 0 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+::1 - - [30/Jan/2025:07:02:30 +0000] "POST /user/signup HTTP/1.1" 201 27 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
