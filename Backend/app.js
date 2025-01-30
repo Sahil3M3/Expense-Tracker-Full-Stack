@@ -57,7 +57,7 @@ FPR.belongsTo(User,{foreignKey:"userId"});
 User.hasMany(downloadhistory,{foreignKey:'userId',onDelete:'CASCADE'});
 downloadhistory.belongsTo(User,{foreignKey:"userId"});
 }
-sequelize.sync({force:true})    
+sequelize.sync()    
 .then(r=>{
     app.listen(process.env.PORT,()=>{
         console.log("Database is on  And Server is listing on 5000");
