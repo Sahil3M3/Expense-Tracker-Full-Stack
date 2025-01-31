@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./SignupForm.css";
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
     const [formData, setFormData] = useState({
@@ -7,6 +8,8 @@ const SignupForm = () => {
         password: "",
         confirmPassword: ""
     });
+    const navigate=useNavigate();
+    
 
     const handleChange = (event) => {
         const { id, value } = event.target;
@@ -17,14 +20,11 @@ const SignupForm = () => {
     };
 
     const submitHandler = async(event) => {
-        event.preventDefault();
 
         if (formData.password !== formData.confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
-
-        console.log("User registered:", formData);
 
 try {
     let response=await fetch("http://localhost:5000/user/signup",{
@@ -41,14 +41,13 @@ if(response.status===409)
 {
     throw new Error(data.error)
 }
-    console.log(" Signed Up",data);
     
 
-
 } catch (error) {
- alert(error)   
+    alert(error)   
 }
 
+navigate("/login")
     };
 
     return (

@@ -18,6 +18,11 @@ const User = sequelize.define('users', {
       allowNull:true
     }
     ,
+    photoUrl:{
+      type:Sequelize.STRING,
+      allowNull:true
+    }
+    ,
     name:{
       type: Sequelize.STRING,
       allowNull: true

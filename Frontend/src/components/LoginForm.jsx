@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-
+import {useNavigate} from "react-router-dom"
 const LoginForm = () => {
  const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
-
+const navigate=useNavigate();
     const handleChange = (event) => {
         const { id, value } = event.target;
         setFormData(prevState => ({
@@ -32,8 +32,9 @@ if(response.status===409)
 {
     throw new Error(data.error)
 }
-    console.log(" Login ",data);
-    
+    localStorage.setItem("token",data.token);
+
+    navigate("/expenseTracker")
 
 
 } catch (error) {

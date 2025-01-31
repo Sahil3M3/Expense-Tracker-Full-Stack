@@ -63,3 +63,24 @@ function generateToken(id) {
 
     return jwt.sign({ userId: id }, key);
 }
+
+module.exports.updateUser=async (req) => {
+    const {name,photoUrl}=req.body;
+
+    const transaction =await sequelize.transaction();
+    try {
+        let user=req.user;
+        user.name=name;
+        user.photoUrl=photoUrl;
+        await user.save({transaction});
+        await transaction.commit();
+        return {status:200,message:'Profile was successful updated'};
+        
+    } catch (error) {
+        transaction.rollback();
+        console.log(error);
+        return {status:500,message:"Internal Server Error",error:error.message};
+        
+    }
+    
+}
