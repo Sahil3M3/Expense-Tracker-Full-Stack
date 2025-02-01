@@ -27,10 +27,13 @@ const ExpenseTracker = () => {
       navigate("/login");
       return;
     }
-
+    
     const fetchData = async () => {
+      let url="https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ"
       try {
-        const response = await fetch("http://localhost:5000/user/", {
+        const response = await fetch(url, {
+          method:"POST",
+          body:JSON.stringify({idToken:token}),
           headers: {
             Authorization: token
           }
@@ -41,7 +44,9 @@ const ExpenseTracker = () => {
         }
 
         const data = await response.json();
-        setFormData(data.data);
+
+        const {displayName,photoUrl}=data.users[0];
+        setFormData({name:displayName,photoUrl})
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -55,11 +60,14 @@ const ExpenseTracker = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:5000/user/", {
-        method: "PATCH",
+      let url="https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ"
+      const response = await fetch(url, {
+        method: "POST",
         body: JSON.stringify({
-          name: formData.name,
-          photoUrl: formData.photoUrl
+          idToken:token,
+          displayName: formData.name,
+          photoUrl: formData.photoUrl,
+          returnSecureToken:true
         }),
         headers: {
           "Content-Type": "application/json",
@@ -77,10 +85,43 @@ const ExpenseTracker = () => {
     }
   };
 
+  const handleVerify=async(event)=>{
+
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+
+    try {
+      let url="https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ"
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          idToken:token,
+         requestType:"VERIFY_EMAIL"
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update profile.");
+      }
+
+      alert("Email Verifeid successfully!");
+    } catch (error) {
+      alert( error.message);
+    }
+
+  }
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px" }}>
         <h2>{showForm ? "Winners never quit, Quitters never win." : "Welcome To Expense Tracker!!!"}</h2>
+        <button style={{ maxWidth: "100px" }} onClick={handleVerify}>
+          Verify Email
+        </button>
         <button style={{ maxWidth: "100px" }} onClick={handleSubmit}>
           Log out
         </button>

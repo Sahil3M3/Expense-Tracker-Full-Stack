@@ -21,13 +21,15 @@ const SignupForm = () => {
 
     const submitHandler = async(event) => {
 
+        event.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
 
 try {
-    let response=await fetch("http://localhost:5000/user/signup",{
+    let url="https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ"
+    let response=await fetch(url,{
         method:"POST",
         body:JSON.stringify({email:formData.email,
             password:formData.confirmPassword
@@ -43,11 +45,11 @@ if(response.status===409)
 }
     
 
+navigate("/login")
 } catch (error) {
-    alert(error)   
+    alert(error);
 }
 
-navigate("/login")
     };
 
     return (

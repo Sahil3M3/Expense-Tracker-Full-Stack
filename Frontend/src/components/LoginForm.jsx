@@ -18,7 +18,8 @@ const navigate=useNavigate();
         event.preventDefault();
 
 try {
-    let response=await fetch("http://localhost:5000/user/login",{
+    let url="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ"
+    let response=await fetch(url,{
         method:"POST",
         body:JSON.stringify({email:formData.email,
             password:formData.password
@@ -32,10 +33,10 @@ if(response.status===409)
 {
     throw new Error(data.error)
 }
-    localStorage.setItem("token",data.token);
+console.log(data.idToken);
 
+     localStorage.setItem("token",data.idToken);
     navigate("/expenseTracker")
-
 
 } catch (error) {
  alert(error)   
