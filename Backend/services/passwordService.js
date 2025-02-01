@@ -32,6 +32,7 @@ module.exports.sendPasswordResetEmail=async(req)=>{
   }
   
       const requestf=await FPR.create(forgotRequest,{transaction:t});
+      
       const resetLink=`http://52.65.52.207:/newpassword.html?token=${requestf.id}`;
         const response = await tranEmailApi.sendTransacEmail({
           sender,
