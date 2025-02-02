@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ExpenseForm from "./ExpenseForm";
+import ExpenseList from "./ExpenseList";
 
 const ExpenseTracker = () => {
   const [showForm, setShowForm] = useState(false);
@@ -8,8 +9,83 @@ const ExpenseTracker = () => {
     name: "",
     photoUrl: ""
   });
-  const token=localStorage.getItem("token");
+  const [expenses, setExpenses] = useState([]);
+  const [editingExpense, setEditingExpense] = useState(null); // State to track the expense being edited
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  const fetchData = async () => {
+    try {
+      const url = "https://e-commerce-35754-default-rtdb.firebaseio.com/expense.json";
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Failed to fetch expenses");
+      const data = await response.json();
+
+      let expensesArray = Object.keys(data || {}).map((key) => ({
+        id: key,
+        ...data[key],
+      }));
+
+      setExpenses(expensesArray);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    fetchData();
+  }, [navigate, token]);
+
+  const onDelete = async (id) => {
+    try {
+      let url = `https://e-commerce-35754-default-rtdb.firebaseio.com/expense/${id}.json`;
+      const response = await fetch(url, {
+        method: "DELETE"
+      });
+
+      if (!response.ok) {
+        throw new Error(response.error.message);
+      }
+
+      fetchData();
+      setExpenses(ps => ps);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const onEdit = async (id, updatedExpense) => {
+    try {
+      let url = `https://e-commerce-35754-default-rtdb.firebaseio.com/expense/${id}.json`;
+      const response = await fetch(url, {
+        method: "PUT",
+        body: JSON.stringify(updatedExpense),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update expense");
+      }
+
+      // Update the local state
+      setExpenses(prevExpenses =>
+        prevExpenses.map(expense =>
+          expense.id === id ? { ...expense, ...updatedExpense } : expense
+        )
+      );
+
+      setEditingExpense(null); // Reset the editing state
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
@@ -23,53 +99,19 @@ const ExpenseTracker = () => {
     setFormData((ps) => ({ ...ps, [id]: value }));
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-    
-    const fetchData = async () => {
-      let url="https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ"
-      try {
-        const response = await fetch(url, {
-          method:"POST",
-          body:JSON.stringify({idToken:token}),
-          headers: {
-            Authorization: token
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch user data.");
-        }
-        
-        const data = await response.json();
-        
-        const {displayName,photoUrl}=data.users[0];
-        setFormData({name:displayName,photoUrl})
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchData();
-  }, [navigate]);
-
   const submitHandler = async (event) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
 
     try {
-      let url="https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ"
+      let url = "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ";
       const response = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
-          idToken:token,
+          idToken: token,
           displayName: formData.name,
           photoUrl: formData.photoUrl,
-          returnSecureToken:true
+          returnSecureToken: true
         }),
         headers: {
           "Content-Type": "application/json",
@@ -87,17 +129,16 @@ const ExpenseTracker = () => {
     }
   };
 
-  const handleVerify=async(event)=>{
-
+  const handleVerify = async (event) => {
     event.preventDefault();
 
     try {
-      let url="https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ"
+      let url = "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ";
       const response = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
-          idToken:token,
-         requestType:"VERIFY_EMAIL"
+          idToken: token,
+          requestType: "VERIFY_EMAIL"
         }),
         headers: {
           "Content-Type": "application/json",
@@ -109,12 +150,11 @@ const ExpenseTracker = () => {
         throw new Error("Failed to update profile.");
       }
 
-      alert("Email Verifeid successfully!");
+      alert("Email Verified successfully!");
     } catch (error) {
-      alert( error.message);
+      alert(error.message);
     }
-
-  }
+  };
 
   return (
     <>
@@ -135,7 +175,7 @@ const ExpenseTracker = () => {
             alignItems: "center"
           }}
         >
-          {showForm ? `Your Profile is 64% completed. A complete Profile has higher chances of landing a job.` : "Your Profile is incomplete."}
+          {showForm ? "Your Profile is 64% completed. A complete Profile has higher chances of landing a job." : "Your Profile is incomplete."}
           <button
             onClick={() => setShowForm(true)}
             style={{
@@ -170,7 +210,8 @@ const ExpenseTracker = () => {
           </button>
         </form>
       )}
-{token && <ExpenseForm/>}
+      {token && <ExpenseForm setExpenses={setExpenses} expenses={expenses} editingExpense={editingExpense} setEditingExpense={setEditingExpense} onEdit={onEdit} />}
+      {token && <ExpenseList expenses={expenses} onDelete={onDelete} onEdit={(id) => setEditingExpense(expenses.find(expense => expense.id === id))} />}
     </>
   );
 };
