@@ -29,17 +29,20 @@ try {
         }
     })
     let data =await response.json();
-if(response.status===409)
-{
-    throw new Error(data.error)
+   
+    
+if(!response.ok)
+{    
+    throw new Error(data.error.message)
 }
-console.log(data.idToken);
 
-     localStorage.setItem("token",data.idToken);
+      localStorage.setItem("token",data.idToken);
+
     navigate("/expenseTracker")
 
 } catch (error) {
- alert(error)   
+ alert(error)  
+  
 }
 
     };

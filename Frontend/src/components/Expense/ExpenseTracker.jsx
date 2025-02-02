@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ExpenseForm from "./ExpenseForm";
 
 const ExpenseTracker = () => {
   const [showForm, setShowForm] = useState(false);
@@ -7,9 +8,10 @@ const ExpenseTracker = () => {
     name: "",
     photoUrl: ""
   });
+  const token=localStorage.getItem("token");
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       localStorage.removeItem("token");
       navigate("/login");
@@ -42,9 +44,9 @@ const ExpenseTracker = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch user data.");
         }
-
+        
         const data = await response.json();
-
+        
         const {displayName,photoUrl}=data.users[0];
         setFormData({name:displayName,photoUrl})
       } catch (error) {
@@ -88,7 +90,6 @@ const ExpenseTracker = () => {
   const handleVerify=async(event)=>{
 
     event.preventDefault();
-    const token = localStorage.getItem("token");
 
     try {
       let url="https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCsEamOrnVTzcU5nxbwa3RyWQAzI2_yHmQ"
@@ -122,7 +123,7 @@ const ExpenseTracker = () => {
         <button style={{ maxWidth: "100px" }} onClick={handleVerify}>
           Verify Email
         </button>
-        <button style={{ maxWidth: "100px" }} onClick={handleSubmit}>
+        <button style={{ maxWidth: "100px" }} onClick={handleLogout}>
           Log out
         </button>
         <span
@@ -169,6 +170,7 @@ const ExpenseTracker = () => {
           </button>
         </form>
       )}
+{token && <ExpenseForm/>}
     </>
   );
 };

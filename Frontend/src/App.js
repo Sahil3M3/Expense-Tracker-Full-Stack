@@ -1,5 +1,5 @@
 import './App.css';
-import ExpenseTracker from './components/ExpenseTracker';
+import ExpenseTracker from './components/Expense/ExpenseTracker';
 import LoginForm from './components/LoginForm';
 import ResetPassword from './components/ResetPassword';
 import SignupForm from './components/SignupForm';
