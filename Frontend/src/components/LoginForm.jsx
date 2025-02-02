@@ -72,6 +72,9 @@ console.log(data.idToken);
                 
                 
                 <button type='submit'>Login</button>
+                <hr></hr>
+                <button type='button' onClick={()=>navigate("/resetpassword")}>Forget Password</button>
+
             </form>
         </div>
     );
