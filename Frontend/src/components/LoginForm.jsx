@@ -1,10 +1,17 @@
 import React, { useState } from 'react'
 import {useNavigate} from "react-router-dom"
+import {useDispatch} from "react-redux"
+import "./SignupForm.css";
+import { authAction } from '../store/auth'
+
 const LoginForm = () => {
+    const dispatch=useDispatch();
+
  const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
+
 const navigate=useNavigate();
     const handleChange = (event) => {
         const { id, value } = event.target;
@@ -35,8 +42,12 @@ if(!response.ok)
 {    
     throw new Error(data.error.message)
 }
+const {localId,idToken}=data
 
-      localStorage.setItem("token",data.idToken);
+
+dispatch(authAction.login({localId,idToken}))
+localStorage.setItem("token",idToken); 
+localStorage.setItem("localId",localId)   
 
     navigate("/expenseTracker")
 

@@ -1,6 +1,20 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteExpense } from "../../store/expense";
 
-const ExpenseList = ({ expenses, onEdit, onDelete }) => {
+const ExpenseList = ({ onEdit }) => {
+  const dispatch=useDispatch();
+
+const expense=useSelector(state=>state.expense)
+
+
+  const expenses=expense.expenses;
+
+const onDelete=(id)=>{
+  dispatch(deleteExpense(id))
+
+} 
+  
   return (
     <div style={{ maxWidth: "600px", margin: "auto" }}>
       <h2>Expense List</h2>

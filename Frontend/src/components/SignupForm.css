@@ -42,3 +42,8 @@ button {
 button:hover {
     background-color: #2d9cdb;
 }
+
+.maindiv:hover,
+.maindiv:focus{
+    background-color: whitesmoke;
+}
