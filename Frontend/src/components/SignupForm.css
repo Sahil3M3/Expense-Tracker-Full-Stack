@@ -43,7 +43,6 @@ button:hover {
     background-color: #2d9cdb;
 }
 
-.maindiv:hover,
-.maindiv:focus{
+.maindiv:hover{
     background-color: whitesmoke;
 }

@@ -4,7 +4,6 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
   color: #333;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .dark {
@@ -12,9 +11,6 @@ body {
   color: white;
 }
 
-.dark a {
-  color: #61dafb;
-}
 
 .dark button {
   background-color: #444;
