@@ -15,7 +15,7 @@ function App() {
     { path: '/login', element: <LoginForm /> },
     { path: '/expenseTracker', element: <ExpenseTracker /> },
     { path: '/resetpassword', element: <ResetPassword /> },
-    { path: '*', element: <LoginForm /> },
+    { path: '*', element: <SignupForm /> },
   ]);
 
   return (

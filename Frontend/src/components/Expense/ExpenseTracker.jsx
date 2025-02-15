@@ -29,7 +29,7 @@ const ExpenseTracker = () => {
     if (auth.token) {
       dispatch(fetchExpenses(auth.userId, auth.token));
     } else {
-      navigate("/login");
+      navigate("/signup");
     }
   }, [auth.token, auth.userId, auth.isAuthenticated, dispatch, navigate]);
 
