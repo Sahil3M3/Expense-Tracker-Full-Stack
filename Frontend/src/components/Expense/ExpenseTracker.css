@@ -5,7 +5,6 @@
 }
 .navDiv {
   background-color: papayawhip;
-  border-bottom: 3px solid blue;
   padding: 1.5rem 1rem;
   display: flex;
   justify-content: space-between; 
@@ -41,7 +40,7 @@ h2 {
   padding: 6px 10px;
   font-size: 0.9rem;
   border-radius: 5px;
-  border: 1px solid blue;
+  border: 1px solid peachpuff;
   background-color: black;
   cursor: pointer;
 }
