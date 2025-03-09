@@ -70,6 +70,7 @@ export const fetchExpenses = () => {
       else if (totalAmount<10000)
       {
         dispatch(activatePremium(false))
+        
       }
        
 

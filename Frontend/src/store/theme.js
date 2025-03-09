@@ -9,6 +9,10 @@ const themeSlice = createSlice({
     },
     activatePremium: (state,action) => {
       state.isPremium = action.payload;
+      if(action.payload===false)
+      {
+        state.darkMode=false;
+      }
     },
   },
 });
