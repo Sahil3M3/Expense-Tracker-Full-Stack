@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { activatePremium } from "./theme";
 
 const initialState={
     expenses:[],
@@ -33,6 +34,8 @@ const expenseSlice = createSlice({
 });
 
 export const expenseAction=expenseSlice.actions;
+export default expenseSlice.reducer
+
 
 export const fetchExpenses = () => {
   return async (dispatch) => {
@@ -53,6 +56,7 @@ export const fetchExpenses = () => {
           ...data[key],
         };
       });
+      
 
       dispatch(
         expenseAction.getExpenses({
@@ -60,6 +64,15 @@ export const fetchExpenses = () => {
           totalAmount,
         })
       );
+      if(totalAmount>10000){
+        dispatch(activatePremium(true))
+      }
+      else if (totalAmount<10000)
+      {
+        dispatch(activatePremium(false))
+      }
+       
+
     } catch (error) {
       console.error(error);
     }
@@ -89,7 +102,7 @@ export const deleteExpense = (id) => {
 export const updateExpense = (id, updatedExpense) => {
   return async (dispatch) => {
     const userId = localStorage.getItem("localId");
-    try {
+            try {
       const url = `https://e-commerce-35754-default-rtdb.firebaseio.com/expenses/${userId}/${id}.json`;
       const response = await fetch(url, {
         method: "PUT",
@@ -130,12 +143,10 @@ export const addExpense = (expense) => {
         throw new Error("Failed to add expense.");
       }
 
-      dispatch(fetchExpenses()); // 🔥 Re-fetch updated expenses list
+      dispatch(fetchExpenses());  
     } catch (error) {
       console.error("Error adding expense:", error);
     }
   };
 };
 
-
-export default expenseSlice.reducer

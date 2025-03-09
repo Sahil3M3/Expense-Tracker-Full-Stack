@@ -1,28 +1,33 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ExpenseTracker from './components/Expense/ExpenseTracker';
-import LoginForm from './components/LoginForm';
-import ResetPassword from './components/ResetPassword';
-import SignupForm from './components/SignupForm';
-import './App.css';
+import React from 'react'
+import Layout from './components/Layout'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Signup from './pages/Signup'
+import Login from './pages/Login'
+import ExpenseBuddy from './pages/Expense/ExpenseBuddy'
+import ProfileForm from './pages/Expense/ProfileForm'
+import Expenses from './pages/Expense/Expenses'
+import ResetPassword from './pages/ResetPassword'
 
-function App() {
-  const darkMode = useSelector((state) => state.theme.darkMode);
 
-  const router = createBrowserRouter([
-    { path: '/signup', element: <SignupForm /> },
-    { path: '/login', element: <LoginForm /> },
-    { path: '/expenseTracker', element: <ExpenseTracker /> },
-    { path: '/resetpassword', element: <ResetPassword /> },
-    { path: '*', element: <SignupForm /> },
-  ]);
-
+const App = () => {
+ 
   return (
-    <div className={darkMode ? 'dark' : ''}>
-      <RouterProvider router={router} />
-    </div>
-  );
+     <>
+<BrowserRouter>
+    <Routes>
+       <Route path='/' element={<Layout/>}> 
+       <Route index element={<Signup/>} />
+       <Route path='/login' element={<Login/>} />
+       <Route path='/resetpassword' element={<ResetPassword/>} />
+       <Route path='expensebuddy' element={<ExpenseBuddy/>} >
+             <Route index element={<Expenses/>} />
+            <Route path="profile" element={<ProfileForm/>} />
+       </Route>
+       </Route>
+    </Routes>
+</BrowserRouter>
+     </>
+  )
 }
 
-export default App;
+export default App
