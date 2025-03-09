@@ -61,13 +61,13 @@ const Signup = () => {
         <h3>Sign Up</h3>
       <form action={submitHandler}>
         <label htmlFor='email'>Email :  </label>
-        <input id='email' name='email' type='email' />
+        <input id='email' name='email' required  type='email' />
         <br/>
         <label htmlFor='password'>Password :  </label>
-        <input id='password' name='password' type='password' />
+        <input id='password' name='password' type='password' required  />
          <br/>
         <label htmlFor='confirmPassword'>Confirm Password  </label>
-        <input id='confirmPassword' name='confirmPassword' type='confirmPassword' />
+        <input id='confirmPassword' name='confirmPassword'  required   type='confirmPassword' />
         <button>Sign Up</button>
       </form>
         <Link to="login"><button type='none' className='auth-button'>Login</button></Link>

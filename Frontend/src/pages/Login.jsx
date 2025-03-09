@@ -51,10 +51,10 @@ const Login = () => {
         <h3>Login</h3>
       <form action={submitHandler}>
         <label htmlFor='email'>Email :  </label>
-        <input id='email' name='email' type='email' />
+        <input  required id='email' name='email' type='email' />
         <br/>
         <label htmlFor='password'>Password :  </label>
-        <input id='password' name='password' type='password' />
+        <input required id='password' name='password' type='password' />
          <br/>
         <button>Login</button>
       </form>
