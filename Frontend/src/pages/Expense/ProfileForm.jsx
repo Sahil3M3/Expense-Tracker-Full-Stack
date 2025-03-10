@@ -6,7 +6,6 @@ const ProfileForm = () => {
     const [userData,setUserData]=useState({name:"",photoUrl:"",emailVerified:false})
    const isDark=useSelector(state=>state.theme.darkMode)
      
-   console.log(isDark);
    
     useEffect(()=>{
       

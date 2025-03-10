@@ -13,12 +13,13 @@ const Expenses = () => {
 
    const handleEdit=(expense)=>{
     setEditingExpense(expense);
+    setShownBtn(true);
    }
 
   return (
     <>
     <div className={`expense-form-container ${isDarkMode?"form-conatiner-dark":null}`} >
-   {showBtn&& <ExpenseForm onCancel={setEditingExpense} editExpense={editingExpense} />}
+   {showBtn&& <ExpenseForm showForm={setShownBtn} onCancel={setEditingExpense} editExpense={editingExpense} />}
    <button onClick={()=>setShownBtn(ps=>!ps)} className='showBtn'>{!showBtn ?"Show ":"Hide " } 
             Form</button> 
          <button className='showBtn' onClick={()=>setEditingExpense(null)}>Cancel</button>
@@ -26,7 +27,7 @@ const Expenses = () => {
    </div>
 
      <div className={`expense-list-container ${isDarkMode?"darkMode-container":null}`} >
-       <ExpenseList onEdit={handleEdit}/>
+       <ExpenseList  onEdit={handleEdit}/>
     </div>
        </>
   )

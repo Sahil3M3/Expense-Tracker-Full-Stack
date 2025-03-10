@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addExpense, updateExpense } from "../../store/expense";
 import { useEffect, useState } from "react";
 
-const ExpenseForm = ({editExpense}) => {
+const ExpenseForm = ({editExpense,showForm}) => {
   const isDarkMode=useSelector(state=>state.theme.darkMode);
  
   const [expense, setExpense] = useState({
@@ -34,7 +34,7 @@ setExpense(editExpense);
         dispatch(updateExpense(editExpense.id,expense))
 
        setExpense({amount:"",description:"",category:""})
-
+showForm(false);
     }
 
 
