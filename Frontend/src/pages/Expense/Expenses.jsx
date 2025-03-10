@@ -20,9 +20,9 @@ const Expenses = () => {
     <>
     <div className={`expense-form-container ${isDarkMode?"form-conatiner-dark":null}`} >
    {showBtn&& <ExpenseForm showForm={setShownBtn} onCancel={setEditingExpense} editExpense={editingExpense} />}
-   <button onClick={()=>setShownBtn(ps=>!ps)} className='showBtn'>{!showBtn ?"Show ":"Hide " } 
+   <button onClick={()=>setShownBtn(ps=>!ps)} className='showBtn'>{!showBtn ?"Add Expense ":"Hide " } 
             Form</button> 
-         <button className='showBtn' onClick={()=>setEditingExpense(null)}>Cancel</button>
+         { showBtn&&( <button className='showBtn' onClick={()=>(setShownBtn(false),setEditingExpense(null))}>Cancel</button>)}
 
    </div>
 

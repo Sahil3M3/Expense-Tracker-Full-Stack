@@ -35,6 +35,7 @@ header >section button {
 
 header >section> img {
   height: 1.7rem;
+  margin-top: 3px;
 border: #fff solid;
 border-radius: 5rem;
 }
@@ -360,7 +361,9 @@ input:checked + .slider::before {
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
 }
 .expense-form-container .showBtn{
  /* margin: 2rem 4rem; */
