@@ -10,13 +10,12 @@ body{
 /*Header and Footer Css*/
 header{
   background-color:#00C4CC ;
-  width: 100vw;
+  width: 100%;
   display: flex;
   align-items: center;
   height: 3rem;
-    justify-content:space-evenly;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    justify-content:space-between;
+    flex-wrap: nowrap;
 }
 header >a {
   text-decoration: none;
@@ -123,6 +122,39 @@ input:checked + .slider {
 input:checked + .slider::before {
   transform: translateX(18px);
 }
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: row; /* Stack items vertically if needed */
+    height: auto; /* Adjust height dynamically */
+    padding: 10px;
+    column-gap: 0.5rem; /* Add padding for smaller screens */
+  }
+
+  header > section {
+    width: 100%; /* Allow full width for proper alignment */
+    display: flex;
+    justify-content: center; /* Center elements */
+  }
+
+  header > section img {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  header > section button {
+    font-size: medium;
+    padding: 5px 8px;
+  }
+  header > section button:hover{
+    border: 0.5rem solid peru;
+  } 
+
+}
+
+
+
+
 /* Dark mode CSs for Header and footer*/
 
 .dark{
